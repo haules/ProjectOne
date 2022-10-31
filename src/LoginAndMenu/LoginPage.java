@@ -63,7 +63,7 @@ public class LoginPage {
         frame.getContentPane().setBackground(Color.lightGray);
         frame.add(pane);
 
-        frame.getContentPane().setBackground(Color.BLUE);
+//        frame.getContentPane().setBackground(Color.BLUE);
         frame.setSize(500, 600);
         frame.setLocationRelativeTo(null); //set the frame to the center of the screen
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -113,8 +113,8 @@ public class LoginPage {
        label.addMouseListener(new MouseAdapter() {
            @Override
            public void mouseClicked(MouseEvent e) {
-               System.out.println("Mouse clicked");
-               JOptionPane.showMessageDialog(null, "Mouse clicked");
+               RegisterPage.initialize();
+               frame.dispose();
            }
        });
     }

@@ -110,6 +110,7 @@ public class BorrowBooks {
         submitButton = new JButton("Find");
         submitButton.setBounds(560, 70, 100, 28);
         submitButton.setFont(new Font("Arial", Font.BOLD, 10));
+        Styles.buttonStyles(submitButton);
         panel.add(submitButton);
         findBook(submitButton);
 
@@ -172,7 +173,7 @@ public class BorrowBooks {
         ResultSet resultSet = statement.executeQuery(query);
 
 //        //Create new table model
-        DefaultTableModel tableModel = new DefaultTableModel(new String[]{"Name", "Author", "Reserved?", "Until"}, 0);
+        DefaultTableModel tableModel = new DefaultTableModel(new String[]{"Name of the Book", "Name of the Author", "Reserved?", "Until"}, 0);
 
         while (resultSet.next()) {
             String bookName = resultSet.getString("name");
