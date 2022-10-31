@@ -59,8 +59,6 @@ public class RegisterPage {
 
         firstNameLabel.setBounds(30, 100, 90, 20);
         firstNameLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-        firstNameLabel.setBackground(Color.red);
-        firstNameLabel.setOpaque(true);
         panel.add(firstNameLabel);
 
 
@@ -83,11 +81,6 @@ public class RegisterPage {
         confirmPasswordLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
         panel.add(confirmPasswordLabel);
 
-
-        registerButton.setBounds(260, 400, 200, 50);
-        back(registerButton);
-
-
         firstNameTF.setBounds(350, 96, 250, 30);
         panel.add(firstNameTF);
 
@@ -107,7 +100,12 @@ public class RegisterPage {
         confirmPassTF.setBounds(350, 296, 250, 30);
         panel.add(confirmPassTF);
 
-        backToLogin.setBounds(260, 470, 200, 50);
+        registerButton.setBounds(400, 400, 200, 50);
+        Styles.buttonStyles(registerButton);
+        panel.add(registerButton);
+        back(registerButton);
+
+        backToLogin.setBounds(100, 400, 200, 50);
         Styles.buttonStyles(backToLogin);
         panel.add(backToLogin);
         backToLoginPage(backToLogin);

@@ -160,7 +160,7 @@ public class BorrowBooks {
     }
 
     public static void resultSetToTableModel(JTable table) throws SQLException {
-        table.setDefaultEditor(Object.class, null);
+//        table.setDefaultEditor(Object.class, null);
 
         JTableHeader header = table.getTableHeader();
         header.setBackground(Color.YELLOW);
@@ -182,12 +182,10 @@ public class BorrowBooks {
             String untilDate = resultSet.getString("theDate");
 
             tableModel.addRow(new Object[]{bookName, bookAuthor, bookReservation, untilDate});
-//            System.out.println(bookAuthor);
         }
         table.setModel(tableModel);
 
         table.getSelectionModel().addListSelectionListener(e -> {
-            //System.out.println(table.getValueAt(table.getSelectedRow(), 3).toString())
 
             String nameGetText = table.getValueAt(table.getSelectedRow(), 0).toString();
             String authorGetText = table.getValueAt(table.getSelectedRow(), 1).toString();
