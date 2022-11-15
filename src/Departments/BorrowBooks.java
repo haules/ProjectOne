@@ -21,6 +21,7 @@ public class BorrowBooks {
     private static JLabel reservedDateLabel;
     private static JLabel isReserved;
     private static JLabel isReservedLabel;
+    private static JLabel bottomLabel;
 
     private static JTextField searchBooks;
 
@@ -114,6 +115,11 @@ public class BorrowBooks {
         panel.add(submitButton);
         findBook(submitButton);
 
+        bottomLabel = new JLabel("© 2022 Library App");
+        bottomLabel.setFont(new Font("Calibri", Font.ITALIC, 10));
+        bottomLabel.setBounds(310, 750, 100, 10 );
+        panel.add(bottomLabel);
+
         frame = new JFrame("Book Department");
         frame.getContentPane().setBackground(Color.lightGray);
         frame.add(panel);
@@ -160,7 +166,7 @@ public class BorrowBooks {
     }
 
     public static void resultSetToTableModel(JTable table) throws SQLException {
-//        table.setDefaultEditor(Object.class, null);
+        table.setDefaultEditor(Object.class, null);
 
         JTableHeader header = table.getTableHeader();
         header.setBackground(Color.YELLOW);

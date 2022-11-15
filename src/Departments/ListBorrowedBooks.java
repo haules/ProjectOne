@@ -8,10 +8,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import java.awt.*;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 
 public class ListBorrowedBooks {
@@ -26,6 +23,8 @@ public class ListBorrowedBooks {
 
     private static JTable table;
     private static JScrollPane jScrollPane;
+
+    private static JLabel bottomLabel;
 
     public static void initialize() {
         panel = new JPanel();
@@ -43,7 +42,6 @@ public class ListBorrowedBooks {
         } catch (Exception exception) {
             exception.printStackTrace();
         }
-
         jScrollPane = new JScrollPane(table);
         jScrollPane.setBounds(50, 100, 600, 500);
         panel.add(jScrollPane);
@@ -60,6 +58,11 @@ public class ListBorrowedBooks {
         Styles.buttonStyles(returnBookButton);
         panel.add(returnBookButton);
         returnBook(returnBookButton);
+
+        bottomLabel = new JLabel("© 2022 Library App");
+        bottomLabel.setFont(new Font("Calibri", Font.ITALIC, 10));
+        bottomLabel.setBounds(310, 750, 100, 10 );
+        panel.add(bottomLabel);
 
         frame = new JFrame("All book borrowed");
         frame.getContentPane().setBackground(Color.lightGray);
@@ -80,15 +83,54 @@ public class ListBorrowedBooks {
     }
 
     public static void returnBook(JButton button) {
+        DBConnection.connect();
+
+
         button.addActionListener(e -> {
-            System.out.println("Book returned");
+            int column = 1; //this is taking column (bookName) one and not 0 (if it was 0 then it was the ID column)
+            int row = table.getSelectedRow();
+            String value = table.getModel().getValueAt(row, column).toString(); //this helped me to delete database row
+            String deleteQuery = "DELETE FROM borrowedbooks WHERE bookName='" + value + "';";
+
+            int result = JOptionPane.showConfirmDialog(
+                    null,
+                    "Are you sure you want to return this book?",
+                    "Alert", JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE);
+
+            if(result == JOptionPane.YES_OPTION){
+                try {
+
+                    Statement statement = DBConnection.getConnection().createStatement();
+                    statement.executeUpdate(deleteQuery);
+
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
+            }else if(result == JOptionPane.NO_OPTION) {
+                return;
+            }else{
+                return;
+            }
+
+            try {
+                retrieveFromDB(table); //this code updates the table live
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
         });
     }
 
-    public static void retrieveFromDB(JTable table) throws SQLException {
+    public static void retrieveFromDB(JTable functionTable) throws SQLException {
+
+        DefaultTableModel model = (DefaultTableModel) functionTable.getModel();
+        functionTable.setModel(model);
+
+        functionTable.setDefaultEditor(Object.class, null);
+        functionTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); //this enables the user to select ONLY ONE row at a time
         DBConnection.connect();
 
-        JTableHeader header = table.getTableHeader();
+        JTableHeader header = functionTable.getTableHeader();
         header.setBackground(Color.YELLOW);
 
         String query = "SELECT * FROM borrowedbooks";
@@ -107,6 +149,6 @@ public class ListBorrowedBooks {
 
             defaultTableModel.addRow(new Object[]{author, bookName, reservedStart, reservedEnd});
         }
-        table.setModel(defaultTableModel);
+        functionTable.setModel(defaultTableModel);
     }
 }
