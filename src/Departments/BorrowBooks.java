@@ -1,5 +1,6 @@
 package Departments;
 
+import Components.ReserveBook;
 import Components.Styles;
 import DatabaseConnection.DBConnection;
 import LoginAndMenu.MainMenu;
@@ -106,6 +107,7 @@ public class BorrowBooks {
         reserveBook = new JButton("Reserve");
         reserveBook.setBounds(100, 630, 100, 40);
         Styles.buttonStyles(reserveBook);
+        reserveButton(reserveBook);
         panel.add(reserveBook);
 
         submitButton = new JButton("Find");
@@ -117,7 +119,7 @@ public class BorrowBooks {
 
         bottomLabel = new JLabel("© 2022 Library App");
         bottomLabel.setFont(new Font("Calibri", Font.ITALIC, 10));
-        bottomLabel.setBounds(310, 750, 100, 10 );
+        bottomLabel.setBounds(310, 750, 100, 10);
         panel.add(bottomLabel);
 
         frame = new JFrame("Book Department");
@@ -167,6 +169,9 @@ public class BorrowBooks {
 
     public static void resultSetToTableModel(JTable table) throws SQLException {
         table.setDefaultEditor(Object.class, null);
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // only one row is selected
+        table.getTableHeader().setResizingAllowed(false); //this line of code is stopping the user to resize the columns
+        table.getTableHeader().setEnabled(false); // stops the user to sort the column order
 
         JTableHeader header = table.getTableHeader();
         header.setBackground(Color.YELLOW);
@@ -203,5 +208,22 @@ public class BorrowBooks {
             reservedDate.setText(untilGetText);
 
         });
+    }
+
+    public static void reserveButton(JButton button) {
+        frame = new JFrame();
+        button.addActionListener(e -> {
+            ReserveBook.initialize();
+            frame.setEnabled(false);
+        });
+        frame.setEnabled(true);
+    }
+
+    public static JFrame getFrame() {
+        return frame;
+    }
+
+    public static JTable getTable() {
+        return table;
     }
 }

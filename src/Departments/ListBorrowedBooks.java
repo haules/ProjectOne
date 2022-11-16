@@ -85,7 +85,6 @@ public class ListBorrowedBooks {
     public static void returnBook(JButton button) {
         DBConnection.connect();
 
-
         button.addActionListener(e -> {
             int column = 1; //this is taking column (bookName) one and not 0 (if it was 0 then it was the ID column)
             int row = table.getSelectedRow();
@@ -128,6 +127,8 @@ public class ListBorrowedBooks {
 
         functionTable.setDefaultEditor(Object.class, null);
         functionTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); //this enables the user to select ONLY ONE row at a time
+        functionTable.getTableHeader().setResizingAllowed(false); //this line of code is stopping the user to resize the columns
+        functionTable.getTableHeader().setEnabled(false); // stops the user to sort the column order
         DBConnection.connect();
 
         JTableHeader header = functionTable.getTableHeader();
