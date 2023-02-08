@@ -1,5 +1,6 @@
 package LoginAndMenu;
 
+import Components.AdminPage;
 import Components.Styles;
 import DatabaseConnection.DBConnection;
 
@@ -18,6 +19,7 @@ public class LoginPage {
     private static JButton loginButton;
     private static JLabel newUserLabel;
     private static JLabel bottomLabel;
+    private static JLabel adminLabel;
 
     private static JFrame frame;
     private static JPanel pane;
@@ -49,14 +51,21 @@ public class LoginPage {
         pane.add(loginButton);
 
         newUserLabel = new JLabel("Register here");
-        newUserLabel.setBounds(200, 350, 83, 20);
+        newUserLabel.setBounds(140, 350, 83, 20);
         newUserLabel.setForeground(Color.blue);
         pane.add(newUserLabel);
         newUser(newUserLabel);
 
+        adminLabel = new JLabel("Admin Login");
+        adminLabel.setBounds(290, 350, 150, 20);
+        adminLabel.setForeground(Color.blue);
+        pane.add(adminLabel);
+        toAdminPage(adminLabel);
+
+
         bottomLabel = new JLabel("© 2022 Library App");
         bottomLabel.setFont(new Font("Calibri", Font.ITALIC, 10));
-        bottomLabel.setBounds(200, 550, 100, 10);
+        bottomLabel.setBounds(220, 550, 100, 10);
         pane.add(bottomLabel);
 
         frame = new JFrame("Login");
@@ -82,14 +91,12 @@ public class LoginPage {
                 passwordPF.setText("");
             } else {
                 try {
-                    String query = "SELECT users, password from users where users='" + usernameTF.getText() + "' and password='" + String.valueOf(passwordPF.getPassword()) + "';";
+                    String query = "SELECT usernames, passwords from users where usernames='" + usernameTF.getText() + "' and passwords='" + String.valueOf(passwordPF.getPassword()) + "';";
                     Connection connection = DBConnection.getConnection();
-
                     Statement statement = connection.createStatement();
                     ResultSet resultSet = statement.executeQuery(query);
 
                     if (resultSet.next()) {
-
                         Thread.sleep(500);
                         MainMenu.initialize();
                         System.out.println("login successful ");
@@ -102,24 +109,31 @@ public class LoginPage {
                     }
                 } catch (Exception exception) {
                     System.out.println("error in LoginPage.loginController()");
-            throw new RuntimeException("unhandled", exception);
+                    throw new RuntimeException("unhandled", exception);
 
                 }
             }
         });
     }
 
-    public static void newUser(JLabel label){
-       label.addMouseListener(new MouseAdapter() {
-           @Override
-           public void mouseClicked(MouseEvent e) {
-               RegisterPage.initialize();
-               frame.dispose();
-           }
-       });
+    public static void newUser(JLabel label) {
+        label.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                RegisterPage.initialize();
+                frame.dispose();
+            }
+        });
     }
 
-
-
-
+    public static void toAdminPage(JLabel label) {
+        label.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                AdminPage.initialize();
+                frame.dispose();
+            }
+        });
+    }
 }
+

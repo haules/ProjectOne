@@ -2,7 +2,7 @@ package LoginAndMenu;
 
 import Components.Styles;
 import Departments.BorrowBooks;
-import Departments.RegisterABook;
+import Departments.ListAllBooks;
 import Departments.ListBorrowedBooks;
 
 import javax.swing.*;
@@ -16,7 +16,7 @@ public class MainMenu {
 
     private static JButton borrowBookButton;
     private static JButton viewBorrowedButton;
-    private static JButton registerABook;
+    private static JButton listAllBooks;
     private static JButton logOut;
 
     private static JLabel bottomLabel;
@@ -42,11 +42,11 @@ public class MainMenu {
         changeDepartment(viewBorrowedButton);
         panel.add(viewBorrowedButton);
 
-        registerABook = new JButton("List All Books");
-        registerABook.setBounds(170, 300, 250, 30);
-        Styles.buttonStyles(registerABook);
-        changeDepartment(registerABook);
-        panel.add(registerABook);
+        listAllBooks = new JButton("List All Books");
+        listAllBooks.setBounds(170, 300, 250, 30);
+        Styles.buttonStyles(listAllBooks);
+        changeDepartment(listAllBooks);
+        panel.add(listAllBooks);
 
         logOut = new JButton("Log out");
         logOut.setBounds(170, 350, 250, 30);
@@ -71,7 +71,6 @@ public class MainMenu {
     }
 
     public static void changeDepartment(JButton button){
-
         button.addActionListener(e -> {
             if(button == borrowBookButton){
                 BorrowBooks.initialize();
@@ -79,8 +78,8 @@ public class MainMenu {
             }else if(button == viewBorrowedButton){
                 ListBorrowedBooks.initialize();
                 frame.dispose();
-            }else if(button == registerABook) {
-                RegisterABook.initialize();
+            }else if(button == listAllBooks) {
+                ListAllBooks.initialize();
                 frame.dispose();
             }else{
                 LoginPage.initialize();

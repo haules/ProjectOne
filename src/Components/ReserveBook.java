@@ -2,11 +2,14 @@ package Components;
 
 import DatabaseConnection.DBConnection;
 import Departments.BorrowBooks;
+import com.sun.source.tree.StatementTree;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 public class ReserveBook {
@@ -93,8 +96,6 @@ public class ReserveBook {
         DBConnection.connect();
         JTable table = BorrowBooks.getTable();
         int row = table.getSelectedRow();
-        int column = 1; //this is taking column (bookName) one and not 0 (if it was 0 then it was the ID column)
-        String value = table.getModel().getValueAt(row, column).toString(); //this helped me to delete database row
 
         //setting the label with the table selection row
         String bookTitle = BorrowBooks.getTable().getModel().getValueAt(row, 0).toString();
@@ -105,25 +106,26 @@ public class ReserveBook {
         String isReserved = BorrowBooks.getTable().getModel().getValueAt(row, 2).toString();
         String until = BorrowBooks.getTable().getModel().getValueAt(row, 3).toString();
 
+        String updateQuery =
+                "INSERT INTO " + "borrowedbooks(author, bookName, borrowedStart, borrowedEnd) VALUES ("
+                        + "'" + authorTitle + "',"
+                        + "'" + bookTitle + "',"
+                        + "'" + isReserved + "',"
+                        + "'" + until + "');";
+
+        String deleteQuery = "DELETE FROM books WHERE name='" + bookTitle + "';";
+
         button.addActionListener(e -> {
-
             if (radioButton1.isSelected()) {
+                Connection connection = DBConnection.getConnection();
+
                 try {
-                    String updateQuery =
-                            "INSERT INTO " + "borrowedbooks(author, bookName, borrowedStart, borrowedEnd) VALUES ("
-                                    + "'" + authorTitle + "',"
-                                    + "'" + bookTitle + "',"
-                                    + "'" + isReserved + "',"
-                                    + "'" + until + "');";
 
-                    //here delete the row in the available book table and update the ListBorrowedBooks table with the values that has been deleted
-                    Connection connection = DBConnection.getConnection();
-                    Statement statement = connection.createStatement();
-                    statement.executeUpdate(updateQuery);
+                    PreparedStatement preparedStatement = connection.prepareStatement(updateQuery);
+                    preparedStatement.executeUpdate();
 
-                    //deleting the row that has been moved to borrowbooks
-                    deleteEntry(column, row);
-
+                    Statement statement = DBConnection.getConnection().createStatement();
+                    statement.executeUpdate(deleteQuery);
 
                 } catch (Exception exception) {
                     exception.printStackTrace();
@@ -140,29 +142,10 @@ public class ReserveBook {
                 System.out.println("Problem in time period selection: BorrowBooks.setConfirmButton()");
             }
 
+
             frame.dispose();
             BorrowBooks.getFrame().setEnabled(true);
         });
-    }
-
-
-    public static void deleteEntry(int column, int row) {
-        DBConnection.connect();
-        JTable table = BorrowBooks.getTable();
-
-        column = 1; //this is taking column (bookName) one and not 0 (if it was 0 then it was the ID column)
-        row = table.getSelectedRow();
-        String value = table.getModel().getValueAt(row, column).toString(); //this helped me to delete database row
-
-
-        try {
-            String deleteQuery = "DELETE FROM books WHERE name='" + value + "';";
-            Statement statement = DBConnection.getConnection().createStatement();
-            statement.executeUpdate(deleteQuery);
-
-        } catch (Exception exception) {
-            exception.printStackTrace();
-        }
     }
 }
 

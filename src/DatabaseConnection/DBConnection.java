@@ -7,12 +7,12 @@ public class DBConnection {
 
     private static Connection connection;
     private static String JDBC_Driver = "com.mysql.cj.jdbc.Driver";
-    private static final String DATABASE_URL = "jdbc:mysql://localhost/library";
+    private static final String DATABASE_URL = "jdbc:mysql://localhost/mydb";
 
     public static void connect() {
         try {
             Class.forName(JDBC_Driver);
-            connection = DriverManager.getConnection(DATABASE_URL, "root", "");
+            connection = DriverManager.getConnection(DATABASE_URL, "root", "root");
             System.out.println("Successfully connected");
         } catch (Exception e) {
             e.printStackTrace();

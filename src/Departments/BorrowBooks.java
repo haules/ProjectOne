@@ -1,5 +1,6 @@
 package Departments;
 
+import Components.MenuBar;
 import Components.ReserveBook;
 import Components.Styles;
 import DatabaseConnection.DBConnection;
@@ -36,7 +37,6 @@ public class BorrowBooks {
     private static JTable table;
     private static JScrollPane jScrollPane;
 
-
     public static void initialize() {
         panel = new JPanel();
         panel.setLayout(null);
@@ -64,7 +64,7 @@ public class BorrowBooks {
         panel.add(authorLabel);
 
         author = new JLabel("-");
-        author.setBounds(130, 175, 150, 30);
+        author.setBounds(130, 175, 250, 30);
         panel.add(author);
 
         isReservedLabel = new JLabel("Reserved?");
@@ -72,7 +72,7 @@ public class BorrowBooks {
         panel.add(isReservedLabel);
 
         isReserved = new JLabel("-");
-        isReserved.setBounds(130, 205, 50, 30);
+        isReserved.setBounds(130, 205, 200, 30);
         panel.add(isReserved);
 
         reservedDateLabel = new JLabel("Until:");
@@ -89,9 +89,11 @@ public class BorrowBooks {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         jScrollPane = new JScrollPane(table);
         jScrollPane.setBounds(50, 300, 600, 300);
 //        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF); //this doesn't allow the columns to resize to the table width
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         panel.add(jScrollPane);
 
         backButton = new JButton("Back");
@@ -126,6 +128,7 @@ public class BorrowBooks {
         frame.getContentPane().setBackground(Color.lightGray);
         frame.add(panel);
 
+        frame.setJMenuBar(MenuBar.getMenuBar());
         frame.getContentPane().setBackground(Color.BLUE);
         frame.setSize(700, 800);
 
@@ -198,10 +201,10 @@ public class BorrowBooks {
 
         table.getSelectionModel().addListSelectionListener(e -> {
 
-            String nameGetText = table.getValueAt(table.getSelectedRow(), 0).toString();
-            String authorGetText = table.getValueAt(table.getSelectedRow(), 1).toString();
-            String reservedGetText = table.getValueAt(table.getSelectedRow(), 2).toString();
-            String untilGetText = table.getValueAt(table.getSelectedRow(), 3).toString();
+            String nameGetText = table.getValueAt(table.getSelectedRow(), 1).toString();
+            String authorGetText = table.getValueAt(table.getSelectedRow(), 2).toString();
+            String reservedGetText = table.getValueAt(table.getSelectedRow(), 3).toString();
+            String untilGetText = table.getValueAt(table.getSelectedRow(), 4).toString();
             searchBookResultLabel.setText(nameGetText);
             author.setText(authorGetText);
             isReserved.setText(reservedGetText);
