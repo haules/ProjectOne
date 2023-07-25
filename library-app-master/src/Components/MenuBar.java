@@ -18,7 +18,7 @@ public class MenuBar {
 
     private static JMenuItem version;
 
-
+//abc
     public static JMenuBar getMenuBar() {
         menuBar = new JMenuBar();
         menuBar.setBackground(Color.BLUE);
