@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+<<<<<<< HEAD
       <module fileurl="file://$PROJECT_DIR$/library-app-master.iml" filepath="$PROJECT_DIR$/library-app-master.iml" />
+=======
+      <module fileurl="file://$PROJECT_DIR$/ProjectOne.iml" filepath="$PROJECT_DIR$/ProjectOne.iml" />
+>>>>>>> 4cf657fc7a4666800c6fcca2b184db608f71635f
     </modules>
   </component>
 </project>
